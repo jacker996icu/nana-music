@@ -1,0 +1,135 @@
+<idea-plugin>
+    <id>com.jacker.music</id>
+    <name>Nana Music</name>
+    <version>1.7</version>
+    <vendor email="jacker996icu@163.com">Jacker996icu</vendor>
+
+    <description><![CDATA[
+      <b>Listen to music while coding right from the IDE!</b><br>
+      <img src="https://raw.githubusercontent.com/jacker996icu/images/main/nana-music/2.png" alt="small" width="400" />
+      <br>
+      <br>
+      Supported features:<br>
+      ♪ <a href="https://music.163.com/">网易云音乐</a> playback;<br>
+      ♪ Login via cellphone;<br>
+      ♪ Personal playlists;<br>
+      ♪ Three modes: sequential, random and single cycle.<br>
+      <br>
+      Please be sure to check limitations before installation:<br>
+      ! You can’t listen to music without copyright and without payment;<br>
+      ! All functions are pieced together using open source code;<br>
+      ! Bugs are inevitable. Is it called a plugin without a bug?<br>
+      ! The icons are all hand-painted, if infringement, then delete.<br>
+      <br>
+      <br>
+      light theme:<br>
+      <img src="https://raw.githubusercontent.com/jacker996icu/images/main/nana-music/3.png" alt="light" width="400" />
+      <br>
+      <br>
+      dark theme:<br>
+      <img src="https://raw.githubusercontent.com/jacker996icu/images/main/nana-music/4.png" alt="dark" width="400" />
+      <br>
+      <br>
+      status widget:<br>
+      <img src="https://raw.githubusercontent.com/jacker996icu/images/main/nana-music/5.png" alt="status widget" width="400" />
+      <br>
+      <br>
+      navigate bar:<br>
+      <img src="https://raw.githubusercontent.com/jacker996icu/images/main/nana-music/6.png" alt="navigate bar" width="400" />
+
+
+
+    ]]></description>
+
+    <change-notes><![CDATA[
+      <ul>
+          <li>v1.7<br>
+             1. fix login.<br>
+          </li>
+          <li>v1.6<br>
+             1. Support navigate bar;<br>
+             2. Support status widget.<br>
+          </li>
+          <li>v1.5<br>
+             1. Optimize icon;<br>
+             2. Optimize description.<br>
+          </li>
+          <li>v1.0<br>
+             1. Support CloudMusic playback, mobile phone number login;<br>
+             2. Support three modes: sequential, random and single cycle.<br>
+          </li>
+
+      </ul>
+    ]]>
+    </change-notes>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/build-number-ranges.html for description -->
+    <idea-version since-build="201.6668.113"/>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!--  侧边栏窗口  -->
+        <toolWindow factoryClass="com.jacker.plugin.music.window.MusicWindowFactory" id="NanaMusic"
+                    icon="MusicIcons.LOGO"
+                    secondary="true" anchor="right"/>
+
+        <!--  用户配置窗口，会在setting的Tools下展示  -->
+        <applicationConfigurable groupId="tools" displayName="Nana Music" id="music.id"
+                                 instance="com.jacker.plugin.music.setting.MusicConfigurable"/>
+
+        <!--  持久化用户配置  -->
+        <applicationService serviceImplementation="com.jacker.plugin.music.setting.MusicPersistentConfig"/>
+
+        <!--  状态栏插件显示      -->
+        <statusBarWidgetFactory id="musicStatusBarFactory"
+                                implementation="com.jacker.plugin.music.statusbar.MusicStatusBarFactory" order="last"/>
+
+    </extensions>
+
+    <actions>
+        <action id="music.LoginAction" class="com.jacker.plugin.music.action.LoginAction"
+                text="Sign In" description="Sign in" icon="MusicIcons.LOGIN">
+        </action>
+        <action id="music.LogoutAction" class="com.jacker.plugin.music.action.LogoutAction"
+                text="Sign Out" description="Sign out" icon="MusicIcons.LOGOUT">
+        </action>
+        <action id="music.PositionAction" class="com.jacker.plugin.music.action.PositionAction"
+                text="Position" description="Position" icon="MusicIcons.POSITION">
+        </action>
+        <action id="music.ClearAllAction" class="com.jacker.plugin.music.action.ClearAllAction"
+                text="Clean Cache" description="Clean cache" icon="MusicIcons.CLEAR">
+        </action>
+        <action id="music.ConfigAction" class="com.jacker.plugin.music.action.ConfigAction"
+                text="Settings" description="Settings" icon="MusicIcons.CONFIG">
+        </action>
+
+        <group id="music.ActionsToolbar">
+            <reference id="music.LoginAction"/>
+            <reference id="music.LogoutAction"/>
+            <reference id="music.PositionAction"/>
+            <reference id="music.ClearAllAction"/>
+            <separator/>
+            <reference id="music.ConfigAction"/>
+        </group>
+
+        <action id="music.ControlNext" class="com.jacker.plugin.music.action.ControlNextAction"
+                text="Next" description="Next" icon="MusicIcons.NEXT_CONTROL">
+        </action>
+        <action id="music.ControlPrevious" class="com.jacker.plugin.music.action.ControlPreviousAction"
+                text="Previous" description="Previous" icon="MusicIcons.PREVIOUS_CONTROL">
+        </action>
+        <action id="music.ControlPlay" class="com.jacker.plugin.music.action.ControlPlayAction"
+                text="Play" description="Play" icon="MusicIcons.PLAY_CONTROL">
+        </action>
+
+        <group id="music.ControlToolbar">
+            <reference ref="music.ControlPrevious"/>
+            <reference ref="music.ControlPlay"/>
+            <reference ref="music.ControlNext"/>
+            <separator/>
+            <add-to-group group-id="NavBarToolBarOthers"/>
+        </group>
+    </actions>
+
+</idea-plugin>

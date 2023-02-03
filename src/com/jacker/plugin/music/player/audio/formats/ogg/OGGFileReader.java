@@ -1,0 +1,27 @@
+package com.jacker.plugin.music.player.audio.formats.ogg;
+
+import com.jacker.plugin.music.player.audio.AudioFileReader;
+import com.jacker.plugin.music.player.model.TrackData;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.generic.GenericAudioHeader;
+import org.jaudiotagger.audio.ogg.OggFileReader;
+
+public class OGGFileReader extends AudioFileReader {
+
+    public TrackData readSingle(TrackData trackData) {
+        try {
+            OggFileReader reader = new OggFileReader();
+            AudioFile af1 = reader.read(trackData.getFile());
+            copyHeaderFields((GenericAudioHeader) af1.getAudioHeader(), trackData);
+        } catch (Exception e) {
+            System.out.println("Couldn't read file: " + trackData.getFile());
+        }
+        return trackData;
+    }
+
+    public boolean isFileSupported(String ext) {
+        return ext.equalsIgnoreCase("ogg");
+    }
+    
+
+}
